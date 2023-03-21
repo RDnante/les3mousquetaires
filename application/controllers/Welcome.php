@@ -55,4 +55,11 @@ class Welcome extends CI_Controller {
 
 		$this->CompteTiers_model->update(1,$general,$code,$nom);
 	}
+
+	public function manala_espace() {
+		$this->load->model("Comptegeneral_model");
+		$nom = $this->input->post("intituler");
+
+		$this->Comptegeneral_model->espace($nom);
+	}
 }

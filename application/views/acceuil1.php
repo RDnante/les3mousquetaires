@@ -14,15 +14,15 @@ var_dump($gen);
     <title>test ato</title>
 </head>
 <body>
-    <form action="<?php echo site_url("Welcome/tiers"); ?>" method="post">
-        <label>compte generale</label>
-        <select name="general" class="">
+    <form action="<?php echo site_url("Welcome/manala_espace"); ?>" method="post">
+        <!-- <label>compte generale</label> -->
+        <!-- <select name="general" class="">
             <?php for ($i=0; $i < count($gen) ; $i++) { ?>
                 <option value="<?php echo $gen[$i]['idcomptegeneral'] ?>"><?php echo $gen[$i]['intitule'] ?></option>
             <?php } ?>
-        </select>
-        <label>numero</label>
-        <input type="number" name="numero" min="0" max="9999">
+        </select> -->
+        <!-- <label>numero</label> -->
+        <!-- <input type="number" name="numero" min="0" max="9999"> -->
         <label>intituler</label>
         <input type="text" name="intituler" id="">
         <input type="submit" value="ok">

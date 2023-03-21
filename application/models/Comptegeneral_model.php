@@ -66,10 +66,30 @@ class Comptegeneral_model extends CI_model {
     }
 
     public function delete($id) {
+        
         $req = "delete from comptegeneral where idcomptegeneral = %s";
         $req = sprintf($req,$id);
 
         echo $req;
+    }
+
+    public function espace($string) {
+
+        $position = [];
+        for ($i=0; $i < strlen($string) ; $i++) { 
+            if (($pos = strpos($string,' ',$i)) !== false) {
+                $position[] = $i;
+                if ($string[$i+1] != ' ') {
+                    break;
+                }
+            }
+        }
+
+        for ($i=0; $i < count($position) ; $i++) { 
+            $string[$position[$i]] = '';
+        }
+
+        print_r($position);
     }
 }
 ?>

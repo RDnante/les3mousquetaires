@@ -2,7 +2,8 @@ CREATE DATABASE gestionCompta
 
 CREATE TABLE devise(
     idDevise SERIAL PRIMARY KEY,
-    nom VARCHAR
+    libelle VARCHAR,
+    valeur DECIMAL
 );
 
 CREATE TABLE typeSaisie(
@@ -21,8 +22,10 @@ CREATE TABLE caracteristiqueCompta(
 CREATE TABLE organisationCompta(
     idOrganisationCompta SERIAL PRIMARY KEY,
     dateDebutExercice DATE,
-    capitale DECIMAL,
-    
+    capitale DECIMAL, 
+    nbDecimal INT,
+    longueurNumCompte INT,
+    longueurNumCompteTiers INT
 );
 
 CREATE TABLE compteGeneral(
@@ -32,6 +35,8 @@ CREATE TABLE compteGeneral(
 );
 
 
+
+
 CREATE TABLE compteTiers(
     idCompteTiers SERIAL PRIMARY KEY,
     idCompteGeneral INT,
@@ -39,6 +44,7 @@ CREATE TABLE compteTiers(
     intitule VARCHAR,
     FOREIGN KEY (idCompteGeneral) REFERENCES compteGeneral(idCompteGeneral)
 );
+
 
 CREATE TABLE deviseEquivalence(
     idDeviseEquivalence SERIAL PRIMARY KEY,
@@ -58,6 +64,7 @@ CREATE TABLE nif(
     idNif SERIAL PRIMARY KEY,
     idSociete INT,
     idDocument INT,
+    numero VARCHAR,
     FOREIGN KEY (idSociete) REFERENCES societe(idSociete),
     FOREIGN KEY (idDocument) REFERENCES document(idDocument)
 );
@@ -66,6 +73,7 @@ CREATE TABLE ns(
     idNs SERIAL PRIMARY KEY,
     idSociete INT,
     idDocument INT,
+    numero VARCHAR,
     FOREIGN KEY (idSociete) REFERENCES societe(idSociete),
     FOREIGN KEY (idDocument) REFERENCES document(idDocument)
 );
@@ -74,6 +82,7 @@ CREATE TABLE nrcs(
     idNrcs SERIAL PRIMARY KEY,
     idSociete INT,
     idDocument INT,
+    numero VARCHAR,
     FOREIGN KEY (idSociete) REFERENCES societe(idSociete),
     FOREIGN KEY (idDocument) REFERENCES document(idDocument)
 );
@@ -92,55 +101,38 @@ CREATE TABLE societe(
     idOrganisationCompta INT,
     idCaracteristiqueCompta INT,
     nom VARCHAR,
-    object VARCHAR,
+    object VARCHAR, 
     adresse VARCHAR,
     telephone VARCHAR,
     email VARCHAR,
+    password VARCHAR,
     dateDeCreation DATE,
     siege VARCHAR,
     nombreEmployer INT,
-    nif INT,
-    ns INT,
-    nrcs INT,
-    FOREIGN KEY (idOrganisationCompta) REFERENCES organisationCompta(idOrganisationCompta),
-    FOREIGN KEY (idCaracteristiqueCompta) REFERENCES caracteristiqueCompta(idCaracteristiqueCompta)
+    nif VARCHAR,
+    ns VARCHAR,
+    nrcs VARCHAR,
+    FOREIGN KEY (idOrganisationCompta) REFERENCES organisationCompta(idOrganisationCompta)! ,
+     FOREIGN KEY (idCaracteristiqueCompta) REFERENCES caracteristiqueCompta(idCaracteristiqueCompta)
 );
 
-CREATE TABLE journal(
-    idJournal SERIAL PRIMARY KEY,
+CREATE TABLE exercice(
+    idExercice SERIAL PRIMARY KEY,
+    debut date,
+    fin date
+);
+
+CREATE TABLE grandLivre(
+    idGrandLivre SERIAL PRIMARY KEY,
     idSociete INT,
-    date DATE,
-    numeroPiece INT,
-    ReferencePiece VARCHAR,
-    numeroCompte INT, 
+    idCompteGeneral INT,
+    idExercice INT,
+    date date,
     libelle VARCHAR,
     debit DECIMAL,
     credit DECIMAL,
     FOREIGN KEY (idSociete) REFERENCES societe(idSociete),
-    FOREIGN KEY (numeroCompte) REFERENCES compteTiers(idCompteTiers)
+    FOREIGN KEY (idCompteGeneral) REFERENCES compteGeneral(idCompteGeneral),
+    FOREIGN KEY (idExercice) REFERENCES exercice(idExercice)
 );
 
-CREATE TABLE valeurDevise(
-    idValeurDevise SERIAL PRIMARY KEY,
-    idDevise INT,
-    valeur DECIMAL,
-    date DATE,
-    FOREIGN KEY (idDevise) REFERENCES devise(idDevise)
-);
-
-INSERT INTO devise VALUES(1,'Ariary');
-INSERT INTO devise VALUES(1,'Dollard');
-INSERT INTO devise VALUES(1,'Euro');
-INSERT INTO devise VALUES(1,'Mur');
-INSERT INTO devise VALUES(1,'Yuan');
-
--- INSERT INTO caracteristiqueCompta VALUES(1,)
--- INSERT INTO societe VALUES();
-
--- INSERT INTO compteGeneral VALUES(1,)
-
-
-INSERT INTO compteGeneral('numero','intitule') VALUES(41000,'Clients');
-INSERT INTO compteGeneral('numero','intitule') VALUES(40000,'Fournisseurs');
-INSERT INTO compteGeneral('numero','intitule') VALUES(41000,'Clients');
-INSERT INTO compteGeneral('numero','intitule') VALUES(41000,'Clients');
